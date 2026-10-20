@@ -1,340 +1,920 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fairy Tail Subtitle Downloader</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <title>Fairy Tail Subtitles</title>
 
-body {
-    margin: 0;
-    background: #0f0f0f;
-    color: white;
-    font-family: Arial, sans-serif;
-}
+    <style>
 
-.container {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-h1 {
-    text-align: center;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-select {
-    width: 100%;
-    padding: 13px;
-    background: #222;
-    color: white;
-    border: 1px solid #444;
-    border-radius: 8px;
-    font-size: 16px;
-}
+        body {
+            margin: 0;
+            padding: 0;
+            background: #101010;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
 
-#status {
-    margin: 15px 0;
-    text-align: center;
-    color: #aaa;
-}
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            padding: 18px;
+        }
 
-.episodes {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-}
+        /* TITLE */
 
-.episode {
-    padding: 12px 5px;
-    background: #202020;
-    border-radius: 7px;
-    text-align: center;
-    cursor: pointer;
-}
+        h1 {
+            text-align: center;
+            margin: 10px 0 20px;
+            font-size: 28px;
+        }
 
-.episode:hover {
-    background: #2979ff;
-}
+        /* SEASON */
 
-.episode.active {
-    background: #2979ff;
-}
+        .season-box {
+            margin-bottom: 15px;
+        }
 
-#subtitleBox {
-    margin-top: 25px;
-}
+        select {
+            width: 100%;
+            padding: 14px;
+            background: #202020;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 9px;
+            font-size: 16px;
+            outline: none;
+        }
 
-.subtitle {
-    background: #1e1e1e;
-    padding: 14px;
-    margin: 8px 0;
-    border-radius: 8px;
-}
+        select:focus {
+            border-color: #2979ff;
+        }
 
-.subtitle-name {
-    font-weight: bold;
-}
+        /* STATUS */
 
-.subtitle-info {
-    color: #aaa;
-    font-size: 13px;
-    margin-top: 5px;
-}
+        #status {
+            text-align: center;
+            color: #aaa;
+            margin: 15px 0;
+            font-size: 14px;
+        }
 
-.download {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 9px 14px;
-    background: #16a34a;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-}
+        /* EPISODES */
 
-.download:hover {
-    background: #15803d;
-}
+        .episodes {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
 
-@media(max-width:500px) {
-    .episodes {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-</style>
+        .episode {
+            background: #202020;
+            padding: 13px 5px;
+            border-radius: 9px;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: 0.15s;
+            font-size: 15px;
+        }
+
+        .episode:hover {
+            background: #2b2b2b;
+        }
+
+        .episode:active {
+            transform: scale(0.96);
+        }
+
+        .episode.active {
+            background: #2979ff;
+        }
+
+        /* SUBTITLE BOX */
+
+        #subtitleBox {
+            margin-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        #subtitleBox h2 {
+            font-size: 21px;
+            margin-bottom: 15px;
+        }
+
+        /* SUBTITLE */
+
+        .subtitle {
+            background: #1d1d1d;
+            border: 1px solid #292929;
+            padding: 14px;
+            margin: 9px 0;
+            border-radius: 9px;
+        }
+
+        .subtitle-name {
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .subtitle-info {
+            color: #999;
+            font-size: 13px;
+            margin-top: 6px;
+            line-height: 1.6;
+        }
+
+        /* DOWNLOAD */
+
+        .download {
+            display: inline-block;
+            margin-top: 11px;
+            padding: 10px 15px;
+            background: #16a34a;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .download:hover {
+            background: #15803d;
+        }
+
+        /* LOADING */
+
+        .loading {
+            text-align: center;
+            color: #aaa;
+            padding: 20px;
+        }
+
+        /* ERROR */
+
+        .error {
+            text-align: center;
+            color: #ff4d4d;
+            padding: 15px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 14px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .episodes {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+            }
+
+            .episode {
+                padding: 12px 3px;
+                font-size: 14px;
+            }
+
+        }
+
+        @media (max-width: 380px) {
+
+            .episodes {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
+
 
     <h1>Fairy Tail Subtitles</h1>
 
-    <select id="season">
-        <option value="">Select Season</option>
-        <option value="1">Season 1</option>
-        <option value="2">Season 2</option>
-        <option value="3">Season 3</option>
-        <option value="4">Season 4</option>
-        <option value="5">Season 5</option>
-        <option value="6">Season 6</option>
-        <option value="7">Season 7</option>
-        <option value="8">Season 8</option>
-    </select>
+
+    <!-- SEASON -->
+
+    <div class="season-box">
+
+        <select id="season">
+
+            <option value="">
+                Select Season
+            </option>
+
+            <option value="1">
+                Season 1
+            </option>
+
+            <option value="2">
+                Season 2
+            </option>
+
+            <option value="3">
+                Season 3
+            </option>
+
+            <option value="4">
+                Season 4
+            </option>
+
+            <option value="5">
+                Season 5
+            </option>
+
+            <option value="6">
+                Season 6
+            </option>
+
+            <option value="7">
+                Season 7
+            </option>
+
+            <option value="8">
+                Season 8
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- STATUS -->
 
     <div id="status"></div>
 
-    <div id="episodes" class="episodes"></div>
+
+    <!-- EPISODES -->
+
+    <div
+        id="episodes"
+        class="episodes">
+    </div>
+
+
+    <!-- SUBTITLES -->
 
     <div id="subtitleBox"></div>
+
 
 </div>
 
 
+
 <script>
 
-const API = "https://moviebox-api-mocha.vercel.app";
 
-const FAIRY_TAIL = "fairy-tail-yXbYVNalyP7";
+/*
+==================================================
+API SETTINGS
+==================================================
+*/
 
-const seasonSelect = document.getElementById("season");
-const statusBox = document.getElementById("status");
-const episodesBox = document.getElementById("episodes");
-const subtitleBox = document.getElementById("subtitleBox");
+const API =
+    "https://moviebox-api-mocha.vercel.app";
 
 
-// ===============================
-// SEASON CHANGE
-// ===============================
+const FAIRY_TAIL =
+    "fairy-tail-yXbYVNalyP7";
 
-seasonSelect.addEventListener("change", async () => {
 
-    const season = seasonSelect.value;
+/*
+==================================================
+ELEMENTS
+==================================================
+*/
+
+const seasonSelect =
+    document.getElementById("season");
+
+const statusBox =
+    document.getElementById("status");
+
+const episodesBox =
+    document.getElementById("episodes");
+
+const subtitleBox =
+    document.getElementById("subtitleBox");
+
+
+/*
+==================================================
+SEASON CHANGE
+==================================================
+*/
+
+seasonSelect.addEventListener(
+    "change",
+    loadSeason
+);
+
+
+/*
+==================================================
+LOAD SEASON
+==================================================
+*/
+
+async function loadSeason() {
+
+    const season =
+        seasonSelect.value;
+
+
+    /*
+    Clear old content
+    */
 
     episodesBox.innerHTML = "";
+
     subtitleBox.innerHTML = "";
 
+
+    /*
+    No season selected
+    */
+
     if (!season) {
+
         statusBox.innerHTML = "";
+
         return;
+
     }
 
-    statusBox.innerHTML = "Loading episodes...";
+
+    statusBox.innerHTML =
+        "Loading episodes...";
+
 
     try {
 
+
         /*
-         * We only need the season information.
-         * API response contains:
-         *
-         * seasonInfo.maxEp
-         */
+        Episode Matrix API
+
+        Example:
+
+        /api/episode-matrix
+        ?id=fairy-tail-yXbYVNalyP7
+        &season=1
+        &episode=1
+        */
 
         const url =
             `${API}/api/episode-matrix?id=${FAIRY_TAIL}&season=${season}&episode=1`;
 
-        const response = await fetch(url);
+
+        const response =
+            await fetch(url);
+
 
         if (!response.ok) {
-            throw new Error("Episode API failed");
+
+            throw new Error(
+                "Episode Matrix API failed"
+            );
+
         }
 
-        const data = await response.json();
 
-        console.log("Episode Matrix:", data);
+        const data =
+            await response.json();
 
-        const maxEp = data.seasonInfo?.maxEp;
+
+        console.log(
+            "Season data:",
+            data
+        );
+
+
+        /*
+        Get episode count
+
+        Your API response:
+
+        seasonInfo: {
+            season: 1,
+            maxEp: 328
+        }
+        */
+
+        const maxEp =
+            data.seasonInfo?.maxEp;
+
 
         if (!maxEp) {
-            throw new Error("Episode count not found");
+
+            throw new Error(
+                "Episode count not found"
+            );
+
         }
+
+
+        /*
+        Show status
+        */
 
         statusBox.innerHTML =
             `Season ${season} — ${maxEp} Episodes`;
 
-        loadEpisodeButtons(season, maxEp);
 
-    } catch (error) {
+        /*
+        Create episode buttons
+        */
 
-        console.error(error);
+        createEpisodes(
+            season,
+            maxEp
+        );
+
+
+    }
+    catch (error) {
+
+
+        console.error(
+            error
+        );
+
 
         statusBox.innerHTML =
-            "❌ Failed to load episodes.";
+            `<div class="error">
+                ❌ Failed to load episodes.
+            </div>`;
+
 
     }
 
-});
+}
 
 
-// ===============================
-// CREATE EPISODE BUTTONS
-// ===============================
+/*
+==================================================
+CREATE EPISODE BUTTONS
+==================================================
+*/
 
-function loadEpisodeButtons(season, maxEp) {
+function createEpisodes(
+    season,
+    maxEp
+) {
+
 
     episodesBox.innerHTML = "";
 
-    for (let episode = 1; episode <= maxEp; episode++) {
+
+    /*
+    Create EP 1 → maxEp
+    */
+
+    for (
+        let episode = 1;
+        episode <= maxEp;
+        episode++
+    ) {
+
 
         const button =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
-        button.className = "episode";
+
+        button.className =
+            "episode";
+
 
         button.textContent =
             `EP ${episode}`;
 
-        button.onclick = () => {
 
-            document
-                .querySelectorAll(".episode")
-                .forEach(el => {
-                    el.classList.remove("active");
-                });
+        /*
+        Click event
+        */
 
-            button.classList.add("active");
+        button.addEventListener(
+            "click",
+            function () {
 
-            loadSubtitles(season, episode);
-        };
 
-        episodesBox.appendChild(button);
+                /*
+                Remove active
+                */
+
+                document
+                    .querySelectorAll(
+                        ".episode"
+                    )
+                    .forEach(
+                        item => {
+                            item.classList.remove(
+                                "active"
+                            );
+                        }
+                    );
+
+
+                /*
+                Set active
+                */
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                /*
+                Load subtitles
+                */
+
+                loadSubtitles(
+                    season,
+                    episode
+                );
+
+            }
+        );
+
+
+        episodesBox.appendChild(
+            button
+        );
+
     }
+
 }
 
 
-// ===============================
-// LOAD SUBTITLES
-// ===============================
+/*
+==================================================
+LOAD SUBTITLES
+==================================================
+*/
 
-async function loadSubtitles(season, episode) {
+async function loadSubtitles(
+    season,
+    episode
+) {
+
+
+    /*
+    Show loading
+    */
 
     subtitleBox.innerHTML = `
-        <h2>Season ${season} Episode ${episode}</h2>
-        <p>Loading subtitles...</p>
+
+        <h2>
+            Season ${season}
+            Episode ${episode}
+        </h2>
+
+        <div class="loading">
+            Loading subtitles...
+        </div>
+
     `;
+
+
+    /*
+    Scroll to subtitle area
+    */
+
+    setTimeout(
+        () => {
+
+            subtitleBox.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        },
+        100
+    );
+
 
     try {
 
-        const url =
-            `${API}/api/subtitles?id=${FAIRY_TAIL}&season=${season}&episode=${episode}`;
 
-        const response = await fetch(url);
+        /*
+        IMPORTANT:
+
+        We use episode-matrix here.
+
+        The response already contains:
+
+        "subtitleCount": 11
+
+        and
+
+        "subtitles": [...]
+        */
+
+        const url =
+            `${API}/api/episode-matrix?id=${FAIRY_TAIL}&season=${season}&episode=${episode}`;
+
+
+        const response =
+            await fetch(url);
+
 
         if (!response.ok) {
-            throw new Error("Subtitle API failed");
+
+            throw new Error(
+                "Episode Matrix API failed"
+            );
+
         }
 
-        const data = await response.json();
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Episode data:",
+            data
+        );
+
+
+        /*
+        Get subtitles
+        */
+
+        const subtitles =
+            data.subtitles || [];
+
+
+        /*
+        Clear loading
+        */
 
         subtitleBox.innerHTML = `
+
             <h2>
-                Season ${season} Episode ${episode}
+                Season ${season}
+                Episode ${episode}
             </h2>
+
         `;
 
-        if (!data.captions || data.captions.length === 0) {
 
-            subtitleBox.innerHTML +=
-                "<p>No subtitles available.</p>";
+        /*
+        No subtitles
+        */
 
-            return;
-        }
+        if (
+            subtitles.length === 0
+        ) {
 
+            subtitleBox.innerHTML += `
 
-        data.captions.forEach(sub => {
-
-            const item =
-                document.createElement("div");
-
-            item.className = "subtitle";
-
-            const size =
-                Math.round(sub.size / 1024);
-
-            item.innerHTML = `
-
-                <div class="subtitle-name">
-                    ${sub.lanName}
+                <div class="error">
+                    ❌ No subtitles available.
                 </div>
-
-                <div class="subtitle-info">
-                    Language: ${sub.lan}
-                    <br>
-                    Size: ${size} KB
-                </div>
-
-                <a
-                    class="download"
-                    href="${sub.url}"
-                    download="Fairy_Tail_S${season}E${episode}_${sub.lan}.srt"
-                    target="_blank"
-                    rel="noopener"
-                >
-                    ⬇ Download SRT
-                </a>
 
             `;
 
-            subtitleBox.appendChild(item);
+            return;
 
-        });
+        }
 
-    } catch (error) {
 
-        console.error(error);
+        /*
+        Subtitle count
+        */
 
-        subtitleBox.innerHTML =
-            "❌ Failed to load subtitles.";
+        const count =
+            data.subtitleCount ||
+            subtitles.length;
+
+
+        subtitleBox.innerHTML += `
+
+            <div style="
+                color:#999;
+                font-size:13px;
+                margin-bottom:12px;
+            ">
+                ${count} subtitles available
+            </div>
+
+        `;
+
+
+        /*
+        Create subtitle list
+        */
+
+        subtitles.forEach(
+            (sub, index) => {
+
+
+                const item =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                item.className =
+                    "subtitle";
+
+
+                /*
+                Size
+
+                API size is bytes
+                */
+
+                const sizeKB =
+                    Math.round(
+                        (sub.size || 0) / 1024
+                    );
+
+
+                /*
+                Language
+                */
+
+                const language =
+                    sub.lanCode ||
+                    "unknown";
+
+
+                const languageName =
+                    sub.lanName ||
+                    language;
+
+
+                /*
+                Download filename
+
+                Example:
+
+                Fairy_Tail_S1_E1_English.srt
+                */
+
+                const fileName =
+                    `Fairy_Tail_S${season}_E${episode}_${language}.srt`;
+
+
+                /*
+                Create HTML
+                */
+
+                item.innerHTML = `
+
+                    <div class="subtitle-name">
+                        ${escapeHTML(
+                            languageName
+                        )}
+                    </div>
+
+                    <div class="subtitle-info">
+
+                        Language:
+                        ${escapeHTML(
+                            language
+                        )}
+
+                        <br>
+
+                        Size:
+                        ${sizeKB} KB
+
+                    </div>
+
+                    <a
+                        class="download"
+                        href="${sub.url}"
+                        download="${fileName}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        ⬇ Download SRT
+                    </a>
+
+                `;
+
+
+                subtitleBox.appendChild(
+                    item
+                );
+
+            }
+        );
+
+
+        /*
+        Scroll again after
+        subtitles are loaded
+        */
+
+        setTimeout(
+            () => {
+
+                subtitleBox.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            },
+            150
+        );
+
+
+    }
+    catch (error) {
+
+
+        console.error(
+            "Subtitle error:",
+            error
+        );
+
+
+        subtitleBox.innerHTML = `
+
+            <h2>
+                Season ${season}
+                Episode ${episode}
+            </h2>
+
+            <div class="error">
+                ❌ Failed to load subtitles.
+            </div>
+
+        `;
 
     }
 
 }
 
+
+/*
+==================================================
+HTML ESCAPE
+==================================================
+
+Prevents API language names from
+being inserted as raw HTML.
+*/
+
+function escapeHTML(
+    value
+) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
 </script>
 
+
 </body>
+
 </html>
